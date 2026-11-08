@@ -1,0 +1,21 @@
+id,patientId,date,time,status,notes
+A-0001,P-0001,2026-10-01,09:00,completed,
+A-0002,P-0001,2026-10-05,09:30,completed,blood work review
+A-0003,P-0001,2026-10-12,10:00,completed,
+A-0004,P-0001,2026-10-17,09:30,pending,annual check-up
+A-0005,P-0002,2026-10-08,08:30,completed,triage
+A-0006,P-0002,2026-10-13,08:45,completed,suture removal
+A-0007,P-0002,2026-10-17,10:15,pending,follow-up on injury
+A-0008,P-0003,2026-10-17,11:00,pending,post-treatment review
+A-0009,P-0003,2026-10-22,11:00,pending,
+A-0010,P-0004,2026-10-17,14:00,pending,next scheduled visit
+A-0011,P-0005,2026-10-10,09:00,pending,missed - came in late
+A-0012,P-0005,2026-10-14,15:30,cancelled,patient called off
+A-0013,P-0006,2026-10-19,13:00,pending,
+A-0014,P-0007,2026-10-15,10:30,pending,no-show
+A-0015,P-0007,2026-10-17,16:00,pending,wound check
+A-0016,P-0008,2026-10-16,11:15,cancelled,rescheduling
+A-0017,P-0009,2026-10-18,09:45,pending,
+A-0018,P-0010,2026-10-17,08:00,completed,morning consult
+A-0019,P-0011,2026-10-20,10:00,pending,
+A-0020,P-0002,2026-10-09,16:45,completed,lab results
