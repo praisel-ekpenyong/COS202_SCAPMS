@@ -39,37 +39,42 @@ COS202_SCAPMS/
 │   ├── FollowUpPatient.h/.cpp  # Follow-up patient category (Priority 2)
 │   ├── Appointable.h           # Scheduling capability interface
 │   ├── Appointment.h/.cpp      # Appointment entity
+│   ├── AppointmentStatus.h     # Appointment status enum
+│   ├── PatientCategory.h       # Patient category enum
 │   └── ClinicDatabase.h/.cpp   # In-memory storage & LRU cache
 │
 ├── controller/                 # Business logic & algorithms
 │   ├── ClinicManager.h/.cpp    # Facade coordinator & undo stack
 │   ├── SearchEngine.h/.cpp     # Custom Linear, Binary & Recursive search
 │   ├── PatientSorter.h/.cpp    # Custom Selection & Merge sort routines
+│   ├── SortAlgorithms.h        # Template sorting implementations
 │   ├── ReportEngine.h/.cpp     # Clinic reports calculation & export
-│   └── UndoAction.h            # Command-pattern undo action records
+│   └── UndoableAction.h/.cpp   # Command-pattern undo action records
 │
 ├── gui/                        # Qt 6 Widgets user interface
 │   ├── MainWindow.h/.cpp       # Main window and tab container
 │   ├── DashboardPanel.h/.cpp   # Overview dashboard & waiting alerts
-│   ├── PatientManagementPanel.h/.cpp # Patient registration & table
+│   ├── PatientPanel.h/.cpp     # Patient registration & table
 │   ├── AppointmentPanel.h/.cpp # Booking & overdue indicators
 │   ├── QueuePanel.h/.cpp       # Priority triage waiting queue
-│   ├── SearchSortPanel.h/.cpp  # Interactive search & sort panel
-│   ├── ReportsPanel.h/.cpp     # Analytical reports viewer & export
+│   ├── SearchPanel.h/.cpp      # Interactive search & sort panel
+│   ├── ReportPanel.h/.cpp      # Analytical reports viewer & export
 │   ├── AdminPanel.h/.cpp       # Undo history ledger & log
 │   ├── Theme.h/.cpp            # Clean healthcare visual theme
 │   ├── main.cpp                # Application entry point
 │   └── resources.qrc           # Application resource bundle
 │
 ├── utils/                      # Helper utilities
-│   ├── Validator.h/.cpp        # Regex form validation
-│   ├── IdGenerator.h/.cpp      # Persistent auto-incrementing IDs
-│   └── FileIO.h/.cpp           # CSV reading and writing engine
+│   ├── Validators.h/.cpp       # Regex form validation
+│   ├── IDGenerator.h/.cpp      # Persistent auto-incrementing IDs
+│   ├── FileHandler.h/.cpp      # CSV reading and writing engine
+│   ├── Exceptions.h            # Custom exception classes
+│   └── AppInfo.h/.cpp          # Application metadata
 │
 ├── data/                       # CSV persistent datasets
 │   ├── patients.csv            # Sample patient records
 │   ├── appointments.csv        # Sample appointment records
-│   └── id_counters.csv         # ID generator sequence counters
+│   └── counters.csv            # ID generator sequence counters
 │
 └── docs/                       # Assessment & documentation assets
     └── submission/             # Screenshots, UML diagram (SVG/PNG), build scripts
