@@ -100,5 +100,5 @@ cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 
 # 3. Launch SCAPMS
-./build/gui/scapms_gui.exe
+./build/gui/SCAPMS.exe
 ```
