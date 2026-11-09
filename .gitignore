@@ -1,7 +1,6 @@
 # Build and binaries
 build/
 dist/
-scratch/
 *.exe
 *.o
 *.obj
