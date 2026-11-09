@@ -36,13 +36,6 @@ Build:
 $env:PATH = "C:\msys64\ucrt64\bin;$env:PATH"; cmake --build build
 ```
 
-Run tests (CTest; suite lives in `tests/` - plain checks, no external
-framework, so it builds offline):
-
-```
-$env:PATH = "C:\msys64\ucrt64\bin;$env:PATH"; ctest --test-dir build --output-on-failure
-```
-
 Run the app (must have ucrt64 on PATH at run time too, for the Qt DLLs):
 
 ```
@@ -55,13 +48,13 @@ Clean rebuild: delete `build\` and re-run configure + build.
 
 - `build/gui/SCAPMS.exe` - the application (GUI subsystem; no console window).
 - Targets: static libs `scapms_utils`, `scapms_model`, `scapms_controller`,
-  `scapms_gui`, executable `SCAPMS`, test exe `tests/smoke_test`.
+  `scapms_gui`, executable `SCAPMS`.
 - Namespaces mirror the directories: `scapms::{model,controller,gui,utils}`.
 - Each library's `CMakeLists.txt` adds the **repo root** to its include path, so always
   include as `#include "gui/MainWindow.h"`, `#include "utils/AppInfo.h"`, etc.
 - New GUI classes with `Q_OBJECT` headers need no extra wiring - `CMAKE_AUTOMOC` is on.
 
-## Pitfalls already hit (do not rediscover)
+## Common build issues
 
 1. **PATH**: invoking `C:\msys64\ucrt64\bin\cmake.exe` directly *without* the PATH prefix
    still fails - CMake then cannot locate `ninja` or `g++`. Always set the PATH prefix.
@@ -69,5 +62,5 @@ Clean rebuild: delete `build\` and re-run configure + build.
    fails at AUTOMOC because `moc.exe` is absent (it installs to
    `C:\msys64\ucrt64\share\qt6\bin\moc.exe`; the Qt6 CMake config finds it there by
    itself once the package is present).
-3. `.exe` files are gitignored (packaging builds in `dist/`); source `.cpp/.h` and
-   CMakeLists are what get committed, never build output.
+3. `.exe` files are gitignored; source `.cpp/.h` and CMakeLists are what get committed,
+   never build output.

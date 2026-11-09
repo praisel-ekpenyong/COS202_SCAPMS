@@ -1,12 +1,15 @@
 # Smart Clinic Appointment & Patient Management System (SCAPMS)
 
+
+
+**Student Name:** Praisel Ekpenyong  
+**Matriculation Number:** 2025/A/CYB/0205
+
 **Course:** COS 202: Computer Programming II  
 **Institution:** Miva Open University  
 **Faculty:** Faculty of Computing and Applied Sciences  
-**Department:** Department of Cybersecurity  
-**Student Name:** Praisel Ekpenyong  
-**Matriculation Number:** 2025/A/CYB/0205  
-**Submission Document:** [`SCAPMS_submission.pdf`](./SCAPMS_submission.pdf)
+**Department:** Cybersecurity  
+**Submission Document:** [`COS202_SCAPMS_Project_Report.pdf`](./COS202_SCAPMS_Project_Report.pdf)
 
 ---
 
@@ -30,7 +33,7 @@ The **Smart Clinic Appointment & Patient Management System (SCAPMS)** is a high-
 COS202_SCAPMS/
 ├── CMakeLists.txt              # Root CMake project configuration
 ├── README.md                   # Repository overview and build guide
-├── SCAPMS_submission.pdf       # Primary assessment deliverable
+├── COS202_SCAPMS_Project_Report.pdf # Primary assessment deliverable
 │
 ├── model/                      # Domain models & database
 │   ├── PatientRecord.h/.cpp    # Base patient record
@@ -77,7 +80,7 @@ COS202_SCAPMS/
 │   └── counters.csv            # ID generator sequence counters
 │
 └── docs/                       # Assessment & documentation assets
-    └── submission/             # Screenshots, UML diagram (SVG/PNG), build scripts
+    └── submission/             # Screenshots, UML diagram 
 ```
 
 ---
@@ -85,6 +88,7 @@ COS202_SCAPMS/
 ## Build & Execution Instructions
 
 ### Prerequisites
+
 - C++17 compliant compiler (GCC 11+, Clang 13+, or MSVC 2019+)
 - CMake 3.21 or newer
 - Qt 6 (Widgets, Core, Gui)
