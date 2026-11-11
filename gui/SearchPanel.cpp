@@ -30,15 +30,6 @@ QTableWidgetItem* readOnlyItem(const QString& text) {
     return item;
 }
 
-// Helpers to access description and priority via base reference.
-QString describeThroughBase(const model::PatientRecord& record) {
-    return QString::fromStdString(record.describe());
-}
-
-int priorityThroughBase(const model::PatientRecord& record) {
-    return record.priority();
-}
-
 }  // namespace
 
 SearchPanel::SearchPanel(controller::ClinicManager& manager, QWidget* parent)
@@ -75,13 +66,28 @@ void SearchPanel::buildUi() {
         algorithmBox_->addItem(
             QString::fromStdString(controller::sortAlgorithmName(algorithm)),
             static_cast<int>(algorithm));
-    algorithmBox_->setToolTip(tr("Select sorting algorithm"));
     sortLayout->addWidget(algorithmBox_, 0, 3);
 
     sortButton_ = new QPushButton(tr("Sort"), sortGroup);
     sortButton_->setToolTip(tr("Sort patient records"));
     connect(sortButton_, &QPushButton::clicked, this, &SearchPanel::onSortClicked);
     sortLayout->addWidget(sortButton_, 0, 4);
+
+    algorithmReasonLabel_ = new QLabel(sortGroup);
+    algorithmReasonLabel_->setStyleSheet(QStringLiteral("color: #64748b; font-size: 11px; font-style: italic;"));
+    algorithmReasonLabel_->setWordWrap(true);
+    sortLayout->addWidget(algorithmReasonLabel_, 1, 0, 1, 5);
+
+    auto updateAlgorithmReason = [this]() {
+        const auto algo = static_cast<controller::SortAlgorithm>(
+            algorithmBox_->currentData().toInt());
+        const QString reason = QString::fromStdString(controller::sortAlgorithmDescription(algo));
+        algorithmBox_->setToolTip(reason);
+        algorithmReasonLabel_->setText(reason);
+    };
+    connect(algorithmBox_, &QComboBox::currentIndexChanged, this, updateAlgorithmReason);
+    updateAlgorithmReason();
+
     sortLayout->setColumnStretch(1, 1);
     layout->addWidget(sortGroup);
 
@@ -110,6 +116,13 @@ void SearchPanel::buildUi() {
     searchEdit_->setPlaceholderText(tr("Search query..."));
     connect(searchEdit_, &QLineEdit::returnPressed,
             this, &SearchPanel::onSearchClicked);
+    connect(searchEdit_, &QLineEdit::textChanged, this, [this](const QString& text) {
+        if (text.trimmed().isEmpty() && currentField() != Field::Category) {
+            hasSearch_ = false;
+            searchTable_->setRowCount(0);
+            searchCount_->setText(tr("No search run yet."));
+        }
+    });
     searchLayout->addWidget(searchEdit_, 0, 1);
 
     searchFieldBox_ = new QComboBox(searchGroup);
@@ -332,7 +345,7 @@ void SearchPanel::fillPatientRows(
         table->setItem(row, 2, readOnlyItem(QString::number(patient.age())));
         table->setItem(row, 3, readOnlyItem(QString::fromStdString(
                                   model::categoryName(patient.category()))));
-        auto* priorityItem = readOnlyItem(QString::number(priorityThroughBase(patient)));
+        auto* priorityItem = readOnlyItem(QString::number(model::patientPriority(patient)));
         table->setItem(row, 4, priorityItem);
 
         const QBrush categoryColor(theme::categoryColor(QString::fromStdString(

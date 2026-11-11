@@ -28,13 +28,8 @@ namespace scapms::gui {
 
 namespace {
 
-// Helpers to access description and priority via base reference.
 QString describeThroughBase(const model::PatientRecord& record) {
-    return QString::fromStdString(record.describe());
-}
-
-int priorityThroughBase(const model::PatientRecord& record) {
-    return record.priority();
+    return QString::fromStdString(model::describePatient(record));
 }
 
 QTableWidgetItem* readOnlyItem(const QString& text) {
@@ -363,7 +358,7 @@ void PatientPanel::refresh() {
                                     model::categoryName(patient.category()))));
         // the priority number comes from the record's own override.
         auto* priorityItem =
-            readOnlyItem(QString::number(priorityThroughBase(patient)));
+            readOnlyItem(QString::number(model::patientPriority(patient)));
         table_->setItem(row, 5, priorityItem);
 
         // category colouring: one brush for the whole row, from the theme.

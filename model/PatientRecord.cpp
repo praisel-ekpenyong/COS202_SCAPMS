@@ -56,4 +56,12 @@ void PatientRecord::setContact(const std::string& contact) {
     contact_ = contact;
 }
 
+std::string describePatient(const PatientRecord& record) {
+    return record.describe();
+}
+
+int patientPriority(const PatientRecord& record) {
+    return record.priority();
+}
+
 }  // namespace scapms::model

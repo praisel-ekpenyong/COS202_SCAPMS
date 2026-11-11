@@ -77,9 +77,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 }
 
 void MainWindow::buildTabs() {
-    // Panels with controller access receive the shell's single ClinicManager
-    // (injection pattern: panels never construct their own
-    // manager); they never reach storage directly (data flow, Architecture).
+    // Pass the shared ClinicManager to each panel.
     patientPanel_ = new PatientPanel(*manager_, this);
     appointmentPanel_ = new AppointmentPanel(*manager_, this);
     searchPanel_ = new SearchPanel(*manager_, this);
@@ -98,8 +96,7 @@ void MainWindow::buildTabs() {
     tabs_->addTab(adminPanel_, tr("Administration"));
     setCentralWidget(tabs_);
 
-    // Status-bar feed: every wired panel's action lands in "last action";
-    // the sort/search and report panels also report the "algorithm used".
+    // Update status bar when actions occur in panels.
     connect(patientPanel_, &PatientPanel::actionPerformed,
             this, &MainWindow::showLastAction);
     connect(appointmentPanel_, &AppointmentPanel::actionPerformed,
@@ -119,12 +116,7 @@ void MainWindow::buildTabs() {
     connect(adminPanel_, &AdminPanel::statusMessage,
             this, &MainWindow::showLastAction);
 
-    // Mediator wiring: a mutation through any panel refreshes EVERY panel,
-    // so e.g. "Call next" on the Queue tab updates the Dashboard at once.
-    // Record mutations also arm the quit-guard (the in-memory clinic now
-    // differs from the last-saved data directory). Queue operations change
-    // appointment records too (call-next completes one), so they arm it as
-    // well - conservative, never silently losing a save prompt.
+    // Refresh views and mark as modified when data changes in any panel.
     connect(patientPanel_, &PatientPanel::dataChanged, this, [this] {
         dirty_ = true;
         refreshDataViews();
@@ -142,13 +134,11 @@ void MainWindow::buildTabs() {
         refreshDataViews();
     });
 
-    // Undo bookkeeping ( status bar): the Admin panel re-publishes the
-    // undo depth after every recorded operation and after each undo.
+    // Update undo count in the status bar.
     connect(adminPanel_, &AdminPanel::undoDepthChanged,
             this, &MainWindow::setUndoDepth);
 
-    // The Admin panel's maintenance buttons route through the shell so the
-    // confirmation dialogs and the manager mutations have a single home.
+    // Admin maintenance actions.
     connect(adminPanel_, &AdminPanel::clearAllRequested,
             this, &MainWindow::onClearAllData);
     connect(adminPanel_, &AdminPanel::loadSampleRequested,
@@ -363,7 +353,7 @@ void MainWindow::seedSampleData() {
         return QDate::currentDate().addDays(days).toString(QStringLiteral("yyyy-MM-dd"));
     };
 
-    // 15 patients - 8 General, 2 Emergency, 5 Follow-Up (spec, sample dataset).
+    // Sample patients.
     struct PatientSeed {
         const char* id;
         const char* name;
@@ -395,8 +385,7 @@ void MainWindow::seedSampleData() {
             seed.nextVisit.toStdString()));
     }
 
-    // 20 appointments - mixed statuses across past/today/future; P-0001 and
-    // P-0002 carry 3 completed each (the "most attended" report seeds, ).
+    // Sample appointments.
     const auto pending = model::AppointmentStatus::Pending;
     const auto completed = model::AppointmentStatus::Completed;
     const auto cancelled = model::AppointmentStatus::Cancelled;
@@ -436,22 +425,19 @@ void MainWindow::seedSampleData() {
             seed.notes));
     }
 
-    // Counters restored so the next registration continues at P-0016/A-0021.
+    // Update next ID numbers.
     manager_->restoreIdCounters(15, 20);
 
-    // 5 queued patients - includes an emergency patient who arrived recently
-    // and a patient waiting over 15 minutes to demonstrate queue priority
-    // and wait-time alert badges.
+    // Initial waiting queue.
     seedSampleQueue();
 
-    // Warm recent patient cache for dashboard display.
+    // Populate recent patient cache.
     manager_->getPatient("P-0002");
     manager_->getPatient("P-0004");
     manager_->getPatient("P-0001");
 }
 
-// Five queued patients of the sample scenario, laid over the active dataset
-// (waiting queue is session-only state and is not stored in persistent files).
+// Initial waiting queue entries for testing.
 void MainWindow::seedSampleQueue() {
     const QTime now = QTime::currentTime();
     const auto minutesAgo = [&now](int minutes) {

@@ -87,6 +87,7 @@ private:
 
     QComboBox* keyBox_ = nullptr;
     QComboBox* algorithmBox_ = nullptr;
+    QLabel* algorithmReasonLabel_ = nullptr;
     QPushButton* sortButton_ = nullptr;
     QTableWidget* resultTable_ = nullptr;
     QLabel* resultCount_ = nullptr;

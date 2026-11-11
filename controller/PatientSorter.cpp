@@ -96,6 +96,16 @@ std::string sortAlgorithmName(SortAlgorithm algorithm) {
     return "";
 }
 
+std::string sortAlgorithmDescription(SortAlgorithm algorithm) {
+    switch (algorithm) {
+        case SortAlgorithm::SelectionSort:
+            return "Selection Sort: Simple in-place O(n²) algorithm with zero extra memory allocation; optimal for small record lists.";
+        case SortAlgorithm::MergeSort:
+            return "Merge Sort: Predictable O(n log n) divide-and-conquer algorithm with stable ordering; optimal for larger datasets and report generation.";
+    }
+    return "";
+}
+
 SortResult PatientSorter::sort(const ClinicManager& manager, SortKey key,
                                SortAlgorithm algorithm, const std::string& today) {
     const std::string day = today.empty() ? ClinicManager::currentDate() : today;

@@ -34,9 +34,10 @@ struct SortResult {
     unsigned revisionAtSort = 0;  // manager.revision when this copy was made
 };
 
-// Display label helpers for UI combo boxes.
+// Display label and description helpers for UI presentation.
 std::string sortKeyName(SortKey key);
 std::string sortAlgorithmName(SortAlgorithm algorithm);
+std::string sortAlgorithmDescription(SortAlgorithm algorithm);
 
 class PatientSorter {
 public:

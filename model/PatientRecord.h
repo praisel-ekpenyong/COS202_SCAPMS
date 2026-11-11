@@ -42,4 +42,8 @@ private:
     PatientCategory category_;
 };
 
+// Helper functions for polymorphic operations across PatientRecord subclasses.
+std::string describePatient(const PatientRecord& record);
+int patientPriority(const PatientRecord& record);
+
 }  // namespace scapms::model
