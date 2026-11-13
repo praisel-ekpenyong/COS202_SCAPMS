@@ -1,0 +1,20 @@
+# Build and binaries
+build/
+dist/
+*.exe
+*.o
+*.obj
+*.dll
+*.a
+CMakeUserPresets.json
+
+# IDE and Editor
+.vs/
+.vscode/
+
+# System / Temp / Office locks
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+~$*
